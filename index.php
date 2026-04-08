@@ -11,41 +11,12 @@
     </style>
     <div>
         <img src="http://10.11.11.78/aplikasi_estafet/assets/Logo_uib.png" alt="Logo_uib.png"> 
-        <label for="NPM"> NPM: </label><br>
-        <input type="text" id="NPM" name="NPM" value="Masukkan NPM"><br>
-        <button type="submit">Submit</button>  <!-- Input login oleh Ryontankawijaya_2532011 -->
 
-    </div>
-    <div>
-        <label for="PASSWORD"> PASSWORD: </label><br>
-        <input type="text" password="PASSOWRD" value="Masukan Password"><br>
-        <button type="submit">Submit</button> <!-- Input login oleh DivaNajwaMeitara_2532027 -->
-    </div>
+            <form method="POST" action="index.php">
+                <input type="text" name="nim" placeholder="nim">
+               <button type="submit" name="login">Login</button>
+            </form>
 
-    <div>
-            <img src="http://10.11.11.78/aplikasi_estafet/assets/Logo_uib.png" alt="Logo_uib.png"> 
-            <br>
-            
-            <label>NPM:</label><br>
-            <input type="text" name="NPM" placeholder="Masukkan NPM" required><br>
-
-            <label>NAMA:</label><br>
-            <input type="text" name="NAMA" placeholder="Masukkan Nama Lengkap" required><br>
-
-            <label>PRODI:</label><br>
-            <input type="text" name="PRODI" placeholder="Program Studi" required><br>
-
-            <label>IPK:</label><br>
-            <input type="number" step="0.01" name="IPK" placeholder="Contoh: 3.50" required><br>
-
-            <label>PAS PHOTO:</label><br>
-            <input type="file" name="FOTO" required><br>
-
-            <br>
-            <button type="submit" name="submit_mhs">Submit Data</button> 
-            </div>!-- Input login oleh feby wahdin_2532074>
-            
-            
 
 
     
@@ -53,4 +24,41 @@
 </body>
 </html>
 
+<?php 
+    $host = '10.11.11.78';
+    $user = 'estafet_user';
+    $pass = 'Qwerty123$%';
+    $db = 'estafet_db';
 
+    $conn = mysqli_connect($host,$user,$pass,$db);
+    if(!$conn){
+        die("koneksi gagal:". mysqli_connect_error());
+    };
+    function loginUser(){
+        global $conn;
+
+        if (isset($_POST['login'])) {
+            $nim = $_POST['nim'];
+            $password = $_POST['password']; // assuming you have a password field
+
+            $sql = "SELECT * FROM mahasiswa WHERE mahasiswa_npm = '{$nim}'";
+            $result = mysqli_query($conn, $sql);
+
+            if ($result && mysqli_num_rows($result) > 0){
+                    echo "Login berhasil";
+                    // redirect if needed
+                    header("Location: dashboard.php");
+                    exit();
+                } else {
+                    echo "Password salah";
+                }
+
+            } else {
+                echo "NIM tidak ditemukan";
+            }
+        }
+
+    if (isset($_POST['login'])) {
+    loginUser();
+}
+?>
